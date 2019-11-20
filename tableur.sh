@@ -32,7 +32,11 @@ while test $# -gt 0 ;do
                 echo "Le fichier $2 n'existe pas"
                 exit 0
             fi;;
-    "-scin") echo "-scin" ;;
+    "-scin") case $2 in
+                "|")
+                *) echo "mauvais separateur" ; exit 0; 
+            esac 
+                echo "-scin" ;;
     "-scout") echo "-scout" ;;
     "-slin") echo "-slin" ;;
     "-slout") echo hello ;;
