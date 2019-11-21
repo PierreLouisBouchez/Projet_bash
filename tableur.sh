@@ -2,10 +2,12 @@
 
 in=''
 out=''
-scin='\t'
-slin='\n'
-scout='\t'
-slout='\n'
+scin='	'
+slin='
+'
+scout='	'
+slout='
+'
 inverse=0
 
 while test $# -gt 0 ;do
