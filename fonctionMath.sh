@@ -4,10 +4,10 @@ function testNumber () {
 	if test $# -ne 1 ; then
 		echo "NOMBRE != 1"
 		exit 1
-	elif [ "$(echo $1 | grep "^[ [:digit:] ]*$")" ]; then
-		return 1
+	elif [ `$(echo $1 | grep -Eq "^[-+]?[0-9]+\.?[0-9]*$")` ]; then
+		return 0
 	fi
-	return 0
+	return 1
 }
 
 function add () {
@@ -52,7 +52,7 @@ function div () {
 		echo " ERREUR not int"
 		exit 1
 	fi
-	ret=`echo "$1*$2"|bc -l`
+	ret=`echo "$1/$2"|bc -l`
 }
 
 function puissance () {
@@ -109,8 +109,8 @@ function sqrt () {
 }
 
 function concat () {
-		if test $# -ne 2 ; then
-			echo "NOMBRE DE D'ARGUMENTS != 2"
+	if test $# -ne 2 ; then
+		echo "NOMBRE DE D'ARGUMENTS != 2"
 		exit 1
 	fi
 	ret="$1""$2"
@@ -162,8 +162,10 @@ function shell () {
 		echo "NOMBRE DE D'ARGUMENTS != 1"
 		exit 1
 	fi
+	`$1`>/dev/null 2>&1
+	if test $? -ne 0; then
+		echo "ERREUR FONCTION SHELL"
+		exit 1
+	fi
 	ret=`$1`
 }
-
-shell "expr 256 + 2"
-echo $ret

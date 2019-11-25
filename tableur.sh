@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source fonctionCell.sh
+
 in=''
 out=''
 scin='	'
@@ -114,14 +116,5 @@ then
     echo "$input" >$in
 fi
 
-function cel(){
-    x=`echo $1 | tr "l" " " | cut -d'c' -f 1 `
-    y=`echo $1 | cut -d'c' -f 2 `
-    for i in ` cat "$in" | cut -d"$slin" -f $x `
-    do
-        res=` echo $i | cut -d"$scin" -f $y `
-    done
-}
-
-cel l1c1
-echo $res
+#max "l2c1" "l3c4"
+#echo $ret
