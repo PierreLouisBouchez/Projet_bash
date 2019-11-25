@@ -1,10 +1,15 @@
 #!/bin/bash
 
+source fonctionMath.sh
+source fonctionCell.sh
+source lireFic.sh
+
 in=''
 out=''
-scin='\t'
-slin='\n'
-scout='\t'
+scin=':'
+slin='
+'
+scout=' '
 slout='\n'
 inverse=0
 
@@ -104,7 +109,7 @@ echo "[Séparateur ligne sortie] : \"$slout\""
 echo "[Inversion lignes/colonnes] : \"$inverse\""
 
 
-if [[ $in == "" ]] 
+if [[ $in == "" ]]
 then
     touch "tmp.tmp"
     read input
@@ -112,14 +117,10 @@ then
     echo "$input" >$in
 fi
 
-function cel(){
-    x=`echo $1 | tr "l" " " | cut -d'c' -f 1 `
-    y=`echo $1 | cut -d'c' -f 2 `
-    for i in ` cat "$in" | cut -d"$slin" -f $x `
-    do
-        res=` echo $i | cut -d"$scin" -f $y `
-    done
-}
-
-cel l1c1
+cel l1c3
 echo $res
+ecrireCel qzff 5
+ecrireCel gqd 5
+ecrireCel qzsf 1
+ecrireCel gqv 5
+

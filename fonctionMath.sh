@@ -52,7 +52,7 @@ function div () {
 		echo " ERREUR not int"
 		exit 1
 	fi
-	ret=`echo "$1*$2"|bc -l`
+	ret=`echo "$1/$2"|bc -l`
 }
 
 function puissance () {
@@ -66,7 +66,7 @@ function puissance () {
 	if test $2 -eq 0; then
 		return 1
 	fi
-	
+
 	local cpt=1
 	ret="$1"
 	while test $cpt -lt $2; do
@@ -130,7 +130,7 @@ function subsitute () {
 		exit 1
 	elif `echo "$1" | grep -q "$2"`; then
 		ret=`echo ${1/$2/$3}`
-	else 
+	else
 		ret="$2 n'est pas dans $1"
 	fi
 }
@@ -141,7 +141,7 @@ function size () {
 		exit 1
 	elif test -f $1; then
 		ret=`ls -lh "$1"| cut -d " " -f5`
-	else 
+	else
 		ret=" $1 n'est pas un fichier"
 	fi
 }
@@ -152,7 +152,7 @@ function lines () {
 		exit 1
 	elif test -f $1; then
 		ret=`wc -l $1 | cut -d " " -f1`
-	else 
+	else
 		ret=" $1 n'est pas un fichier"
 	fi
 }
@@ -169,6 +169,3 @@ function shell () {
 	fi
 	ret=`$1`
 }
-
-shell "qzrq"
-echo $ret
