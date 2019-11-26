@@ -117,10 +117,6 @@ then
     echo "$input" >$in
 fi
 
-cel l1c3
+traitement "=+(l1c1,l1c2)"
 echo $res
-ecrireCel qzff 5
-ecrireCel gqd 5
-ecrireCel qzsf 1
-ecrireCel gqv 5
 

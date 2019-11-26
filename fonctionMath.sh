@@ -4,7 +4,7 @@ function testNumber () {
 	if test $# -ne 1 ; then
 		echo "NOMBRE != 1"
 		exit 1
-	elif [ "$(echo $1 | grep "^[ [:digit:] ]*$")" ]; then
+	elif [ "$(echo $1 | grep "^-?[0-9]*(\.[0-9]*)?$")" ]; then
 		return 1
 	fi
 	return 0
