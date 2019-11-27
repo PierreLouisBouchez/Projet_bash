@@ -117,14 +117,11 @@ then
     echo "$input" >$in
 fi
 
-<<<<<<< HEAD
 add 4.666 5.5555e
 echo $ret
 
 #max "l2c1" "l3c4"
 #echo $ret
-=======
-testNumber 45 
-echo $?
 
->>>>>>> master
+#testNumber 45 
+#echo $?
