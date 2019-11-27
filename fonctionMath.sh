@@ -12,6 +12,18 @@ function testNumber () {
 	return 1
 }
 
+function testfunctionMathSimple(){
+	if test $# -ne 1 ; then
+		echo "NOMBRE != 1"
+		exit 1
+	fi
+	re='^[+-*/]$'
+	if ! [[ $1 =~ $re ]]; then
+		return 0
+	fi
+	return 1
+}
+
 function add () {
 	if test $# -ne 2 ; then
 		echo "NOMBRE != 2"

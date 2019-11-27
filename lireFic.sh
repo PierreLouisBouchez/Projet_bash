@@ -93,7 +93,7 @@ function traitementbis(){
         exit 1
     fi
 	local param=`echo $1 | cut -d'(' -f1`
-	if `test2Element "$1"` ; then
+	if `test2Element "$1"` && `testfunctionMathSimple "$param"`; then
 		local a=` echo $1 | cut -c3- | cut -d"," -f1`
 		local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
 		`verifcel "$a"`
@@ -143,6 +143,51 @@ function traitementbis(){
 						fi ;;
 				*)  echo "rien";;
 		esac
+	elif `test2Element "$1"`; then
+		local a=` echo $1 | cut -c3- | cut -d"," -f1`
+		local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
+		`verifcel "$a"`
+		iscela="$?"
+		`verifcel "$b"`
+		iscelb="$?"
+		case $param in
+			'somme')	if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+							somme "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+			'moyenne')	if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+							moyenne "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+			'variance') if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+							variance "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+			'ecarttype')if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+							ecarttype "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+			'mediane')	if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+							mediane "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+			'min')		if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+							min "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+			'max')		if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+							max "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+		esac
+		
 	elif `test1Element "$1"` ; then
 		local a=` echo $1 | cut -d"(" -f2 | cut -d")" -f1`
 		`verifcel "$a"`
