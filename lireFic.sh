@@ -9,6 +9,30 @@ function verifcel(){
 	return $?
 }
 
+function test2Element () {
+	if test $# -ne 1 ; then
+		echo "NOMBRE != 1"
+		exit 1
+	fi
+	re='.*,.*'
+	if ! [[ $1 =~ $re ]]; then
+		return 1
+	fi
+	return 0
+}
+
+function test1Element () {
+	if test $# -ne 1 ; then
+		echo "NOMBRE != 1"
+		exit 1
+	fi
+	re='.*\(.*\)'
+	if ! [[ $1 =~ $re ]]; then
+		return 1
+	fi
+	return 0
+}
+
 function cel(){
     if test $# -ne 1 ; then
       echo "NOMBRE != 1"
@@ -64,8 +88,12 @@ function ecrireCel(){
 }
 
 function traitementbis(){
+	if test $# -ne 1 ; then
+		echo "NOMBRE != 1"
+        exit 1
+    fi
 	local param=`echo $1 | cut -d'(' -f1`
-	if test $# -eq 2 ; then
+	if `test2Element "$1"` ; then
 		local a=` echo $1 | cut -c3- | cut -d"," -f1`
 		local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
 		`verifcel "$a"`
@@ -115,7 +143,7 @@ function traitementbis(){
 						fi ;;
 				*)  echo "rien";;
 		esac
-	elif test $# -eq 1 ; then
+	elif `test1Element "$1"` ; then
 		local a=` echo $1 | cut -d"(" -f2 | cut -d")" -f1`
 		`verifcel "$a"`
 		iscel="$?"
