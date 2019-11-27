@@ -1,14 +1,16 @@
 #!/bin/bash
 
 source fonctionMath.sh
+source fonctionCell.sh
+source lireFic.sh
+
 in=''
 out=''
-scin=' '
+scin=':'
 slin='
 '
 scout=' '
-slout='
-'
+slout='\n'
 inverse=0
 
 while test $# -gt 0 ;do
@@ -98,7 +100,6 @@ while test $# -gt 0 ;do
     shift
 done
 
-
 #echo "[Fichier entrée] : \"$in\""
 #echo "[Fichier sortie] : \"$out\""
 #echo "[Séparateur colonne entrée] : \"$scin\""
@@ -108,7 +109,7 @@ done
 #echo "[Inversion lignes/colonnes] : \"$inverse\""
 
 
-if [[ $in == "" ]] 
+if [[ $in == "" ]]
 then
     touch "tmp.tmp"
     read input
@@ -116,60 +117,6 @@ then
     echo "$input" >$in
 fi
 
-function cel(){
-    x=`echo $1 | tr "l" " " | cut -d'c' -f 1 `
-    y=`echo $1 | cut -d'c' -f 2 `
-    for i in ` cat "$in" | cut -d"$slin" -f $x `
-    do
-        res=` echo $i | cut -d"$scin" -f $y `
-    done
-}
-
-function verifcel(){
-	res=`grep "l[0-9]*c[0-9]*"<<<"$1"`
-	echo "$res"
-	if [ "$res" == '' ];then
-		return 1
-	else
-		return 0
-	fi
-}
-
-function traitementbis(){
-	param=`echo $1 | cut -d'(' -f1`
-	echo $param
-    case $param in
-            '+') a=` echo $1 | cut -c3- | tr ")" "," | cut -d"," -f1`
-                  b=` echo $1 | cut -c3- | tr ")" "," | cut -d"," -f2`
-				  echo "a:$a b:$b"
-				  `testNumber "$a"`
-				  isnumber=$?
-				  `verifcel "$a"`
-				  iscel=$?
-                  if test $isnumber -eq 0 ;then
-                        echo hello
-					#res=`expr "$a" + "$b"`
-                  fi ;;
-            '-') echo '-';;
-            '*')   echo '*';;
-            '/')   echo '/';;
-            '^') echo '^';;
-            *)  echo "rien";;
-    esac
-}
-
-function traitement(){
-    first=`echo $1 | cut -c1`
-    if [ $first == '=' ]
-    then
-        param=`echo $1 | cut -c2-`
-        traitementbis $param
-    else
-        res=$1
-    fi
-}
-
-traitement "=+(l1c1,l1c2)" 
-echo $res
-
+testNumber 45 
+echo $?
 
