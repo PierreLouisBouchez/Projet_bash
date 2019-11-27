@@ -9,6 +9,18 @@ function verifcel(){
 	return $?
 }
 
+function test3Element () {
+	if test $# -ne 1 ; then
+		echo "NOMBRE != 1"
+		exit 1
+	fi
+	re='.*,.*'
+	if ! [[ $1 =~ $re ]]; then
+		return 1
+	fi
+	return 0
+}
+
 function test2Element () {
 	if test $# -ne 1 ; then
 		echo "NOMBRE != 1"
@@ -93,7 +105,15 @@ function traitementbis(){
         exit 1
     fi
 	local param=`echo $1 | cut -d'(' -f1`
-	if `test2Element "$1"` && `testfunctionMathSimple "$param"`; then
+	if `test3Element "$1"`; then
+		if test "$param" == "subsitute"; then
+			local a=` echo $1 | cut -d"," -f1 | cut -d"(" -f2`
+			local b=` echo $1 | tr ")" ","| cut -d"," -f2`
+			local c=` echo $1 | tr ")" ","| cut -d"," -f3`
+			subsitute "$a" "$b" "$c" 
+		fi
+	fi
+	if `test2Element "$1"` && ! `testfunctionMathSimple "$param"`; then
 		local a=` echo $1 | cut -c3- | cut -d"," -f1`
 		local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
 		`verifcel "$a"`
@@ -114,7 +134,9 @@ function traitementbis(){
 		local isNumbera="$?"
 		`testNumber "$b"`
 		local isNumberb="$?"
+		
 		case $param in
+			
 				'+') 	
 						if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
 							add "$a" "$b"
@@ -144,52 +166,57 @@ function traitementbis(){
 				*)  echo "rien";;
 		esac
 	elif `test2Element "$1"`; then
-		local a=` echo $1 | cut -c3- | cut -d"," -f1`
+		local a=` echo $1 | cut -d"," -f1 | tail -c5`
 		local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
 		`verifcel "$a"`
 		iscela="$?"
 		`verifcel "$b"`
 		iscelb="$?"
 		case $param in
-			'somme')	if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+			'somme')	if test "$iscela" -eq 0 && test "$iscelb" -eq 0 ; then
 							somme "$a" "$b"
 						else
 							ret="probleme ici "
 						fi ;;
-			'moyenne')	if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+			'moyenne')	if test "$iscela" -eq 0 && test "$iscelb" -eq 0 ; then
 							moyenne "$a" "$b"
 						else
 							ret="probleme ici "
 						fi ;;
-			'variance') if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+			'variance') if test "$iscela" -eq 0 && test "$iscelb" -eq 0 ; then
 							variance "$a" "$b"
 						else
 							ret="probleme ici "
 						fi ;;
-			'ecarttype')if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+			'ecarttype')if test "$iscela" -eq 0 && test "$iscelb" -eq 0; then
 							ecarttype "$a" "$b"
 						else
 							ret="probleme ici "
 						fi ;;
-			'mediane')	if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+			'mediane')	if test "$iscela" -eq 0 && test "$iscelb" -eq 0; then
 							mediane "$a" "$b"
 						else
 							ret="probleme ici "
 						fi ;;
-			'min')		if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+			'min')		if test "$iscela" -eq 0 && test "$iscelb" -eq 0 ; then
 							min "$a" "$b"
 						else
 							ret="probleme ici "
 						fi ;;
-			'max')		if test "$iscela" -eq 1 && test "$iscelb" -eq 1 ; then
+			'max')		if test "$iscela" -eq 0 && test "$iscelb" -eq 0 ; then
 							max "$a" "$b"
 						else
 							ret="probleme ici "
 						fi ;;
+			'concat')   concat "$a" "$b" ;;
 		esac
 		
 	elif `test1Element "$1"` ; then
 		local a=` echo $1 | cut -d"(" -f2 | cut -d")" -f1`
+		if test "$param" == "length"; then
+			length "$a"
+			return 0
+		fi
 		`verifcel "$a"`
 		iscel="$?"
 		if test "$iscel" -eq 0; then

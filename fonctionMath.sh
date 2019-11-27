@@ -17,8 +17,8 @@ function testfunctionMathSimple(){
 		echo "NOMBRE != 1"
 		exit 1
 	fi
-	re='^[+-*/]$'
-	if ! [[ $1 =~ $re ]]; then
+	re='^[\+\*\/\-]$'
+	if ! [[ "$1" =~ $re ]]; then
 		return 0
 	fi
 	return 1

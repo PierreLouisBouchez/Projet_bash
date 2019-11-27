@@ -117,6 +117,7 @@ then
     echo "$input" >$in
 fi
 
-testNumber 45 
-echo $?
+cel l1c1
+traitement $res
+echo $res
 
