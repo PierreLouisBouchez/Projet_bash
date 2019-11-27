@@ -1,15 +1,16 @@
 #!/bin/bash
 
+source fonctionMath.sh
 source fonctionCell.sh
+source lireFic.sh
 
 in=''
 out=''
-scin='	'
+scin=':'
 slin='
 '
-scout='	'
-slout='
-'
+scout=' '
+slout='\n'
 inverse=0
 
 while test $# -gt 0 ;do
@@ -99,16 +100,16 @@ while test $# -gt 0 ;do
     shift
 done
 
-echo "[Fichier entrée] : \"$in\""
-echo "[Fichier sortie] : \"$out\""
-echo "[Séparateur colonne entrée] : \"$scin\""
-echo "[Séparateur ligne entrée] : \"$slin\""
-echo "[Séparateur colonne sortie] : \"$scout\""
-echo "[Séparateur ligne sortie] : \"$slout\""
-echo "[Inversion lignes/colonnes] : \"$inverse\""
+#echo "[Fichier entrée] : \"$in\""
+#echo "[Fichier sortie] : \"$out\""
+#echo "[Séparateur colonne entrée] : \"$scin\""
+#echo "[Séparateur ligne entrée] : \"$slin\""
+#echo "[Séparateur colonne sortie] : \"$scout\""
+#echo "[Séparateur ligne sortie] : \"$slout\""
+#echo "[Inversion lignes/colonnes] : \"$inverse\""
 
 
-if [[ $in == "" ]] 
+if [[ $in == "" ]]
 then
     touch "tmp.tmp"
     read input
@@ -116,8 +117,14 @@ then
     echo "$input" >$in
 fi
 
+<<<<<<< HEAD
 add 4.666 5.5555e
 echo $ret
 
 #max "l2c1" "l3c4"
 #echo $ret
+=======
+testNumber 45 
+echo $?
+
+>>>>>>> master

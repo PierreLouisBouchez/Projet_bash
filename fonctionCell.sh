@@ -1,16 +1,5 @@
 #!/bin/bash
 
-source fonctionMath.sh
-
-function cel () {
-    x=`echo $1 | tr "l" " " | cut -d'c' -f 1 `
-    y=`echo $1 | cut -d'c' -f 2 `
-    for i in ` cat "$in" | cut -d"$slin" -f $x `
-    do
-        res=` echo $i | cut -d"$scin" -f $y `
-    done
-}
-
 function somme () {
 	x1=`echo $1 | tr "l" " " | cut -d'c' -f 1 `
     y1=`echo $1 | cut -d'c' -f 2 `
@@ -29,7 +18,6 @@ function somme () {
 			val=$ret
 		done
 	done
-	ret=$val
 }
 
 function moyenne () {
