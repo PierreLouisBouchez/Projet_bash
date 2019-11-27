@@ -29,6 +29,7 @@ function somme () {
 			val=$ret
 		done
 	done
+	ret=$val
 }
 
 function moyenne () {

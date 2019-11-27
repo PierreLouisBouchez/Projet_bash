@@ -4,7 +4,9 @@ function testNumber () {
 	if test $# -ne 1 ; then
 		echo "NOMBRE != 1"
 		exit 1
-	elif [ `$(echo $1 | grep -Eq "^[-+]?[0-9]+\.?[0-9]*$")` ]; then
+	fi
+	re='^[+-]?[0-9]+([.][0-9]+)?$'
+	if ! [[ $1 =~ $re ]]; then
 		return 0
 	fi
 	return 1
@@ -15,7 +17,7 @@ function add () {
 		echo "NOMBRE != 2"
 		exit 1
 	elif `testNumber "$1"` || `testNumber "$2"`; then
-		echo " ERREUR not int"
+		echo " ERREUR not number"
 		exit 1
 	fi
 	ret=`echo "$1+$2"|bc -l`
