@@ -4,10 +4,24 @@ function testNumber () {
 	if test $# -ne 1 ; then
 		echo "NOMBRE != 1"
 		exit 1
-	elif [ "$(echo $1 | grep "^[ [:digit:] ]*$")" ]; then
-		return 1
 	fi
-	return 0
+	re='^[+-]?[0-9]+([.][0-9]+)?$'
+	if ! [[ $1 =~ $re ]]; then
+		return 0
+	fi
+	return 1
+}
+
+function testfunctionMathSimple(){
+	if test $# -ne 1 ; then
+		echo "NOMBRE != 1"
+		exit 1
+	fi
+	re='^[+-*/]$'
+	if ! [[ $1 =~ $re ]]; then
+		return 0
+	fi
+	return 1
 }
 
 function add () {
@@ -52,7 +66,7 @@ function div () {
 		echo " ERREUR not int"
 		exit 1
 	fi
-	ret=`echo "$1*$2"|bc -l`
+	ret=`echo "$1/$2"|bc -l`
 }
 
 function puissance () {
@@ -66,7 +80,7 @@ function puissance () {
 	if test $2 -eq 0; then
 		return 1
 	fi
-	
+
 	local cpt=1
 	ret="$1"
 	while test $cpt -lt $2; do
@@ -130,7 +144,7 @@ function subsitute () {
 		exit 1
 	elif `echo "$1" | grep -q "$2"`; then
 		ret=`echo ${1/$2/$3}`
-	else 
+	else
 		ret="$2 n'est pas dans $1"
 	fi
 }
@@ -141,7 +155,7 @@ function size () {
 		exit 1
 	elif test -f $1; then
 		ret=`ls -lh "$1"| cut -d " " -f5`
-	else 
+	else
 		ret=" $1 n'est pas un fichier"
 	fi
 }
@@ -152,7 +166,7 @@ function lines () {
 		exit 1
 	elif test -f $1; then
 		ret=`wc -l $1 | cut -d " " -f1`
-	else 
+	else
 		ret=" $1 n'est pas un fichier"
 	fi
 }
@@ -162,8 +176,10 @@ function shell () {
 		echo "NOMBRE DE D'ARGUMENTS != 1"
 		exit 1
 	fi
+	`$1`>/dev/null 2>&1
+	if test $? -ne 0; then
+		echo "ERREUR FONCTION SHELL"
+		exit 1
+	fi
 	ret=`$1`
 }
-
-shell "expr 256 + 2"
-echo $ret

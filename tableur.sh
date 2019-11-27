@@ -1,10 +1,15 @@
 #!/bin/bash
 
+source fonctionMath.sh
+source fonctionCell.sh
+source lireFic.sh
+
 in=''
 out=''
-scin='\t'
-slin='\n'
-scout='\t'
+scin=':'
+slin='
+'
+scout=' '
 slout='\n'
 inverse=0
 
@@ -95,16 +100,16 @@ while test $# -gt 0 ;do
     shift
 done
 
-echo "[Fichier entrée] : \"$in\""
-echo "[Fichier sortie] : \"$out\""
-echo "[Séparateur colonne entrée] : \"$scin\""
-echo "[Séparateur ligne entrée] : \"$slin\""
-echo "[Séparateur colonne sortie] : \"$scout\""
-echo "[Séparateur ligne sortie] : \"$slout\""
-echo "[Inversion lignes/colonnes] : \"$inverse\""
+#echo "[Fichier entrée] : \"$in\""
+#echo "[Fichier sortie] : \"$out\""
+#echo "[Séparateur colonne entrée] : \"$scin\""
+#echo "[Séparateur ligne entrée] : \"$slin\""
+#echo "[Séparateur colonne sortie] : \"$scout\""
+#echo "[Séparateur ligne sortie] : \"$slout\""
+#echo "[Inversion lignes/colonnes] : \"$inverse\""
 
 
-if [[ $in == "" ]] 
+if [[ $in == "" ]]
 then
     touch "tmp.tmp"
     read input
@@ -112,14 +117,6 @@ then
     echo "$input" >$in
 fi
 
-function cel(){
-    x=`echo $1 | tr "l" " " | cut -d'c' -f 1 `
-    y=`echo $1 | cut -d'c' -f 2 `
-    for i in ` cat "$in" | cut -d"$slin" -f $x `
-    do
-        res=` echo $i | cut -d"$scin" -f $y `
-    done
-}
+testNumber 45 
+echo $?
 
-cel l1c1
-echo $res
