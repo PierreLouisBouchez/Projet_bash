@@ -100,13 +100,13 @@ while test $# -gt 0 ;do
     shift
 done
 
-echo "[Fichier entrée] : \"$in\""
-echo "[Fichier sortie] : \"$out\""
-echo "[Séparateur colonne entrée] : \"$scin\""
-echo "[Séparateur ligne entrée] : \"$slin\""
-echo "[Séparateur colonne sortie] : \"$scout\""
-echo "[Séparateur ligne sortie] : \"$slout\""
-echo "[Inversion lignes/colonnes] : \"$inverse\""
+#echo "[Fichier entrée] : \"$in\""
+#echo "[Fichier sortie] : \"$out\""
+#echo "[Séparateur colonne entrée] : \"$scin\""
+#echo "[Séparateur ligne entrée] : \"$slin\""
+#echo "[Séparateur colonne sortie] : \"$scout\""
+#echo "[Séparateur ligne sortie] : \"$slout\""
+#echo "[Inversion lignes/colonnes] : \"$inverse\""
 
 
 if [[ $in == "" ]]
@@ -117,6 +117,7 @@ then
     echo "$input" >$in
 fi
 
-traitement "=+(l1c1,l1c2)"
+cel l1c1
+traitement $res 
 echo $res
 

@@ -65,61 +65,99 @@ function ecrireCel(){
 
 function traitementbis(){
 	local param=`echo $1 | cut -d'(' -f1`
-	local a=` echo $1 | cut -c3- | cut -d"," -f1`
-	local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
-	`verifcel "$a"`
-	iscel="$?"
-	if test "$iscel" -eq 0; then
-		cel "$a"
-		traitement "$res"
-		local a="$res"
-	fi
-	`verifcel "$b"`
-	iscel="$?"
-	if test "$iscel" -eq 0; then
-		cel "$b" 
-		traitement "$res"
-		local b="$res"
-	fi
-	`testNumber "$a"`
-	local isNumbera="$?"
-	echo "$isNumbera $a $b"
-	`testNumber "$b"`
-	local isNumberb="$?"
-	echo "$isNumberb"
-    case $param in
-            '+') 	
-					if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
-						add "$a" "$b"
-					else
-						ret="probleme NAN"
-					fi ;;
-            '-') if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
-						sub "$a" "$b"
+	if test $# -eq 2 ; then
+		local a=` echo $1 | cut -c3- | cut -d"," -f1`
+		local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
+		`verifcel "$a"`
+		iscel="$?"
+		if test "$iscel" -eq 0; then
+			cel "$a"
+			traitement "$res"
+			local a="$res"
+		fi
+		`verifcel "$b"`
+		iscel="$?"
+		if test "$iscel" -eq 0; then
+			cel "$b" 
+			traitement "$res"
+			local b="$res"
+		fi
+		`testNumber "$a"`
+		local isNumbera="$?"
+		`testNumber "$b"`
+		local isNumberb="$?"
+		case $param in
+				'+') 	
+						if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
+							add "$a" "$b"
+						else
+							ret="probleme NAN"
+						fi ;;
+				'-') if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
+							sub "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+				'*')  if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
+							mul "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+				'/')   if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
+							div "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+				'^') if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
+							puissance "$a" "$b"
+						else
+							ret="probleme ici "
+						fi ;;
+				*)  echo "rien";;
+		esac
+	elif test $# -eq 1 ; then
+		local a=` echo $1 | cut -d"(" -f2 | cut -d")" -f1`
+		`verifcel "$a"`
+		iscel="$?"
+		if test "$iscel" -eq 0; then
+			cel "$a"
+			traitement "$res"
+			local a="$res"
+		fi
+		`testNumber "$a"`
+		local isNumbera="$?"
+		case $param in
+			'ln') 	if test "$isNumbera" -eq 1; then
+						ln "$a"
 					else
 						ret="probleme ici "
 					fi ;;
-            '*')  if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
-						mul "$a" "$b"
+			'e')	if test "$isNumbera" -eq 1; then
+						exponentiel "$a"
 					else
 						ret="probleme ici "
 					fi ;;
-            '/')   if test "$isNumbera" -eq 1 && test "$isNumberb" -eq 1 ; then
-						div "$a" "$b"
+			'sqrt') if test "$isNumbera" -eq 1; then
+						sqrt "$a" 
 					else
 						ret="probleme ici "
 					fi ;;
-            '^') echo '^';;
             *)  echo "rien";;
-    esac
+		esac
+	fi
+   
 }
 
 function traitement(){
     first=`echo $1 | cut -c1`
+    verifcel "$1"
+	iscel="$?"
     if test "$first" == '=' ; then
         local param=`echo $1 | cut -c2-`
         traitementbis "$param"
         res="$ret"
+    elif test "$iscel" -eq 0; then
+		cel "$1"
     else
         res="$1"
     fi
