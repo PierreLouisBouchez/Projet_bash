@@ -242,6 +242,9 @@ function traitementbis(){
 					else
 						ret="probleme ici "
 					fi ;;
+			'size') size "$a"
+			'lines') lines "$a"
+			'display') ret="$a"
             *)  echo "rien";;
 		esac
 	fi
