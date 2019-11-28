@@ -5,6 +5,7 @@ source fonctionCell.sh
 source lireFic.sh
 
 in=''
+tmp='tmpDisplay.tmp'
 out=''
 scin=':'
 slin='
@@ -108,19 +109,47 @@ done
 #echo "[Séparateur ligne sortie] : \"$slout\""
 #echo "[Inversion lignes/colonnes] : \"$inverse\""
 
-
 if [[ $in == "" ]]
 then
+	echo "Aucun fichier d'entrée spécifié - lecture de l'entrée standard :"
     touch "tmp.tmp"
     read input
     in="tmp.tmp"
     echo "$input" >$in
 fi
 
-add 4.666 5.5555e
-echo $ret
+if test -e $tmp
+then
+	rm $tmp
+fi
+touch $tmp
 
-#max "l2c1" "l3c4"
+nbDisplay=0
+if test $inverse -eq 1
+then
+	lireFichierInverse
+else
+	lireFichier
+fi
+
+if [[ $out == "" ]]
+then
+	echo "Aucun fichier de sortie spécifié - écriture sur la sortie standard :"
+else
+	echo -n "" >$out
+fi
+lireFichierDisplay
+
+#nbRowLine 5
+#echo $col
+
+#cel l1c8
+#echo $res
+
+#lines $in
+#echo $ret
+
+#add 4.666 5.5555
 #echo $ret
 
 #testNumber 45 

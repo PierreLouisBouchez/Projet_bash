@@ -165,10 +165,33 @@ function lines () {
 		echo "NOMBRE DE D'ARGUMENTS != 1"
 		exit 1
 	elif test -f $1; then
-		ret=`wc -l $1 | cut -d " " -f1`
+		line=1
+		ligne=`cat "$in" | cut -d"$slin" -f "$line" `
+		while [[ "$ligne" != "" ]]
+		do
+			line=`expr $line + 1`
+			ligne=`cat "$in" | cut -d"$slin" -f "$line" `
+		done
+		if test $line -eq 0
+		then
+			return O
+		fi
+		line=`expr $line - 1`
+		ret=$line
 	else
-		ret=" $1 n'est pas un fichier"
+		ret="$1 n'est pas un fichier"
 	fi
+}
+
+function nbRowLine () {
+	line=1
+	ligne=`cat "$in" | cut -d"$slin" -f "$line" `
+	while [[ "$ligne" != "" ]] && test $line -ne $1
+	do
+		line=`expr $line + 1`
+		ligne=`cat "$in" | cut -d"$slin" -f "$line" `
+	done
+	col=`echo "$ligne" | awk -F"$scin" '{print NF}'`
 }
 
 function shell () {
