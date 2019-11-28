@@ -135,7 +135,7 @@ function length () {
 		echo "NOMBRE DE D'ARGUMENTS != 1"
 		exit 1
 	fi
-	ret=`expr length $1`
+	ret=`expr length "\$1"`
 }
 
 function subsitute () {

@@ -104,6 +104,8 @@ function traitementbis(){
 		echo "NOMBRE != 1"
         exit 1
     fi
+    local dejafaitA=0
+    local dejafaitB=0
 	local param=`echo $1 | cut -d'(' -f1`
 	if `test3Element "$1"`; then
 		if test "$param" == "subsitute"; then
@@ -114,8 +116,12 @@ function traitementbis(){
 		fi
 	fi
 	if `test2Element "$1"` && ! `testfunctionMathSimple "$param"`; then
-		local a=` echo $1 | cut -c3- | cut -d"," -f1`
-		local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
+		if test "$dejafaitA" -eq 0; then
+			local a=` echo $1 | cut -c3- | cut -d"," -f1`
+		fi
+		if test "$dejafaitB" -eq 0; then
+			local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
+		fi
 		`verifcel "$a"`
 		iscel="$?"
 		if test "$iscel" -eq 0; then
@@ -242,26 +248,52 @@ function traitementbis(){
 					else
 						ret="probleme ici "
 					fi ;;
-			'size') size "$a"
-			'lines') lines "$a"
-			'display') ret="$a"
+			'size') size "$a" ;;
+			'lines') lines "$a" ;;
+			'display') ret="$a" ;;
             *)  echo "rien";;
 		esac
 	fi
    
 }
 
+function verifTraitement(){
+	if test $# -ne 1 ; then
+		echo "NOMBRE != 1"
+        exit 1
+    fi
+    local var="$1"
+	local var=`echo "$var" | sed "s/(=/:=/g"`
+	local var=`echo "$var" | sed "s/,=/,:=/g"`
+	local nbOperation=`echo "$var" | grep -o ":" | wc -l`
+	local nbOperation=`expr $nbOperation + 1`
+	while test $nbOperation -gt 1; do
+		local param=`echo "$var" | cut -d":" -f"$nbOperation"  | cut -d")" -f1`
+		nbOperation=`expr $nbOperation - 1`
+        traitement "$param"
+        local var=`echo "$var" | sed "s/,:$param)/,$ret/"`
+        local var=`echo "$var" | sed "s/:$param)/($ret/"`
+	done 
+	echo "$var"
+}
+
 function traitement(){
-    first=`echo $1 | cut -c1`
-    verifcel "$1"
-	iscel="$?"
+	if test $# -ne 1 ; then
+		echo "NOMBRE != 1"
+        exit 1
+    fi
+    local var="$1"
+    local var=`verifTraitement "$var"`
+	local first=`echo "$var" | cut -c1`
+    verifcel "$var"
+	local iscel="$?"
     if test "$first" == '=' ; then
-        local param=`echo $1 | cut -c2-`
+        local param=`echo "$var" | cut -c2-`
         traitementbis "$param"
         res="$ret"
     elif test "$iscel" -eq 0; then
-		cel "$1"
+		cel "$var"
     else
-        res="$1"
+        res="$var"
     fi
 }

@@ -117,7 +117,6 @@ then
     echo "$input" >$in
 fi
 
-cel l1c1
-traitement $res
+traitement "=*(=+(=+(45,45),=+(45,45)),45)"
 echo $res
 
