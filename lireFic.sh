@@ -104,8 +104,6 @@ function traitementbis(){
 		echo "NOMBRE != 1"
         exit 1
     fi
-    local dejafaitA=0
-    local dejafaitB=0
 	local param=`echo $1 | cut -d'(' -f1`
 	if `test3Element "$1"`; then
 		if test "$param" == "subsitute"; then
@@ -116,12 +114,8 @@ function traitementbis(){
 		fi
 	fi
 	if `test2Element "$1"` && ! `testfunctionMathSimple "$param"`; then
-		if test "$dejafaitA" -eq 0; then
-			local a=` echo $1 | cut -c3- | cut -d"," -f1`
-		fi
-		if test "$dejafaitB" -eq 0; then
-			local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
-		fi
+		local a=` echo $1 | cut -c3- | cut -d"," -f1`
+		local b=` echo $1 | cut -c3- | tr ")" ","| cut -d"," -f2`
 		`verifcel "$a"`
 		iscel="$?"
 		if test "$iscel" -eq 0; then
@@ -293,6 +287,7 @@ function traitement(){
         res="$ret"
     elif test "$iscel" -eq 0; then
 		cel "$var"
+		traitement "$res"
     else
         res="$var"
     fi

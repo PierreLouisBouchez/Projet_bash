@@ -117,6 +117,6 @@ then
     echo "$input" >$in
 fi
 
-traitement "=*(=+(=+(45,45),=+(45,45)),45)"
+traitement "=*(=+(=+(l2c2,45),=+(45,l2c2)),45)"
 echo $res
 
