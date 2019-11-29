@@ -163,7 +163,7 @@ function cel(){
 		y=`echo $1 | cut -d'c' -f 2 `
 		for i in ` cat "$in" | cut -d"$slin" -f $x `
 		do
-		  res=` echo $i | cut -d"$scin" -f $y `
+			res=` echo $i | cut -d"$scin" -f $y `
 		done
 		if [[ $res == "" ]]
 		then

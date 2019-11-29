@@ -138,7 +138,13 @@ then
 else
 	echo -n "" >$out
 fi
-lireFichierDisplay
+
+if test $nbDisplay -eq 0
+then
+	`cp "$tmp" "$out"`
+else
+	lireFichierDisplay
+fi
 
 #nbRowLine 5
 #echo $col
